@@ -1,4 +1,4 @@
-// Song database with real working audio and images
+// Song Database
 const songs = [
     {
         name: "Inspire",
@@ -74,26 +74,54 @@ const songs = [
     }
 ];
 
-// Get elements
+// Get Elements
 const audioPlayer = document.getElementById('audio-player');
 const playPauseBtn = document.getElementById('play-pause-btn');
 const playIcon = document.getElementById('play-icon');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
+const shuffleBtn = document.getElementById('shuffle-btn');
+const repeatBtn = document.getElementById('repeat-btn');
+const seekBar = document.getElementById('seek-bar');
 const progressBar = document.getElementById('progress-bar');
-const progress = document.getElementById('progress');
 const currentTimeEl = document.getElementById('current-time');
 const durationEl = document.getElementById('duration');
 const volumeBar = document.getElementById('volume-bar');
+const volumeBtn = document.getElementById('volume-btn');
 const currentSongImg = document.getElementById('current-song-img');
 const currentSongName = document.getElementById('current-song-name');
 const currentArtistName = document.getElementById('current-artist-name');
+const likeBtn = document.getElementById('like-btn');
 const songCards = document.querySelectorAll('.song-card');
+const playlistItems = document.querySelectorAll('.playlist-item');
 
 let currentSongIndex = 0;
 let isPlaying = false;
+let isShuffle = false;
+let repeatMode = 0; // 0: no repeat, 1: repeat all, 2: repeat one
 
-// Load song
+// Initialize
+function init() {
+    loadSong(0);
+    updateGreeting();
+    setupEventListeners();
+}
+
+// Dynamic Greeting
+function updateGreeting() {
+    const hour = new Date().getHours();
+    const greetingEl = document.getElementById('greeting');
+    
+    if (hour < 12) {
+        greetingEl.textContent = 'Good Morning';
+    } else if (hour < 18) {
+        greetingEl.textContent = 'Good Afternoon';
+    } else {
+        greetingEl.textContent = 'Good Evening';
+    }
+}
+
+// Load Song
 function loadSong(index) {
     currentSongIndex = index;
     const song = songs[index];
@@ -102,120 +130,92 @@ function loadSong(index) {
     currentSongImg.src = song.img;
     currentSongName.textContent = song.name;
     currentArtistName.textContent = song.artist;
-    
-    // Update active state on cards
-    updateActiveCard();
 }
 
-// Update active card styling
-function updateActiveCard() {
-    songCards.forEach((card, index) => {
-        if (index === currentSongIndex) {
-            card.style.backgroundColor = '#282828';
-        } else {
-            card.style.backgroundColor = '#181818';
-        }
-    });
-}
-
-// Play song
+// Play Song
 function playSong() {
     isPlaying = true;
     audioPlayer.play();
     playIcon.classList.remove('fa-play');
     playIcon.classList.add('fa-pause');
-    
-    // Update play button icons on cards
-    updatePlayButtonIcons();
 }
 
-// Pause song
+// Pause Song
 function pauseSong() {
     isPlaying = false;
     audioPlayer.pause();
     playIcon.classList.remove('fa-pause');
     playIcon.classList.add('fa-play');
-    
-    updatePlayButtonIcons();
 }
 
-// Update play button icons on song cards
-function updatePlayButtonIcons() {
-    songCards.forEach((card, index) => {
-        const playBtn = card.querySelector('.play-btn i');
-        if (index === currentSongIndex && isPlaying) {
-            playBtn.classList.remove('fa-play');
-            playBtn.classList.add('fa-pause');
-        } else {
-            playBtn.classList.remove('fa-pause');
-            playBtn.classList.add('fa-play');
-        }
-    });
-}
-
-// Play/Pause toggle
-playPauseBtn.addEventListener('click', () => {
-    if (isPlaying) {
-        pauseSong();
-    } else {
-        playSong();
-    }
-});
-
-// Previous song
-prevBtn.addEventListener('click', () => {
+// Previous Song
+function prevSong() {
     currentSongIndex--;
     if (currentSongIndex < 0) {
         currentSongIndex = songs.length - 1;
     }
     loadSong(currentSongIndex);
     playSong();
-});
+}
 
-// Next song
-nextBtn.addEventListener('click', () => {
-    currentSongIndex++;
-    if (currentSongIndex > songs.length - 1) {
-        currentSongIndex = 0;
+// Next Song
+function nextSong() {
+    if (isShuffle) {
+        currentSongIndex = Math.floor(Math.random() * songs.length);
+    } else {
+        currentSongIndex++;
+        if (currentSongIndex >= songs.length) {
+            currentSongIndex = 0;
+        }
     }
     loadSong(currentSongIndex);
     playSong();
-});
+}
 
-// Update progress bar
-audioPlayer.addEventListener('timeupdate', () => {
+// Toggle Shuffle
+function toggleShuffle() {
+    isShuffle = !isShuffle;
+    shuffleBtn.classList.toggle('active');
+}
+
+// Toggle Repeat
+function toggleRepeat() {
+    repeatMode = (repeatMode + 1) % 3;
+    
+    if (repeatMode === 0) {
+        repeatBtn.classList.remove('active');
+        repeatBtn.querySelector('i').classList.remove('fa-repeat-1');
+    } else if (repeatMode === 1) {
+        repeatBtn.classList.add('active');
+        repeatBtn.querySelector('i').classList.remove('fa-repeat-1');
+    } else {
+        repeatBtn.classList.add('active');
+        repeatBtn.querySelector('i').classList.add('fa-repeat-1');
+    }
+}
+
+// Update Progress
+function updateProgress() {
     const { duration, currentTime } = audioPlayer;
     const progressPercent = (currentTime / duration) * 100;
-    progress.style.width = `${progressPercent}%`;
-    progressBar.value = progressPercent;
-
-    // Update time
+    progressBar.style.width = `${progressPercent}%`;
+    seekBar.value = progressPercent;
+    
     currentTimeEl.textContent = formatTime(currentTime);
     if (duration) {
         durationEl.textContent = formatTime(duration);
     }
-});
+}
 
-// Set progress bar
-progressBar.addEventListener('input', (e) => {
-    const value = e.target.value;
-    const time = (value / 100) * audioPlayer.duration;
-    audioPlayer.currentTime = time;
-    progress.style.width = `${value}%`;
-});
+// Set Progress
+function setProgress(e) {
+    const width = this.clientWidth;
+    const clickX = e.offsetX;
+    const duration = audioPlayer.duration;
+    audioPlayer.currentTime = (clickX / width) * duration;
+}
 
-// Volume control
-volumeBar.addEventListener('input', (e) => {
-    const volume = e.target.value / 100;
-    audioPlayer.volume = volume;
-    e.target.style.setProperty('--progress', `${e.target.value}%`);
-});
-
-// Set initial volume
-audioPlayer.volume = 0.7;
-volumeBar.style.setProperty('--progress', '70%');
-
-// Format time
+// Format Time
 function formatTime(time) {
     if (isNaN(time)) return '0:00';
     const minutes = Math.floor(time / 60);
@@ -223,52 +223,103 @@ function formatTime(time) {
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
 
-// Song card click events
-songCards.forEach((card, index) => {
-    card.addEventListener('click', (e) => {
-        // If clicking on the same song that's playing, toggle play/pause
-        if (index === currentSongIndex && isPlaying) {
-            pauseSong();
-        } else if (index === currentSongIndex && !isPlaying) {
-            playSong();
-        } else {
-            // Load and play new song
-            loadSong(index);
-            playSong();
-        }
-    });
-});
-
-// Auto play next song
-audioPlayer.addEventListener('ended', () => {
-    nextBtn.click();
-});
-
-// Handle loading errors
-audioPlayer.addEventListener('error', (e) => {
-    console.error('Error loading audio:', e);
-    alert('Error loading this song. Trying next song...');
-    nextBtn.click();
-});
-
-// Load first song on page load
-loadSong(0);
-
-// Update song cards with dynamic content
-function updateSongCards() {
-    songCards.forEach((card, index) => {
-        if (songs[index]) {
-            const img = card.querySelector('.song-image img');
-            const title = card.querySelector('h3');
-            const artist = card.querySelector('p');
-            
-            img.src = songs[index].img;
-            img.alt = songs[index].name;
-            title.textContent = songs[index].name;
-            artist.textContent = songs[index].artist;
-        }
-    });
+// Volume Control
+function updateVolume() {
+    const volume = volumeBar.value / 100;
+    audioPlayer.volume = volume;
+    
+    // Update volume icon
+    const volumeIcon = volumeBtn.querySelector('i');
+    volumeIcon.classList.remove('fa-volume-high', 'fa-volume-low', 'fa-volume-off', 'fa-volume-xmark');
+    
+    if (volume === 0) {
+        volumeIcon.classList.add('fa-volume-xmark');
+    } else if (volume < 0.5) {
+        volumeIcon.classList.add('fa-volume-low');
+    } else {
+        volumeIcon.classList.add('fa-volume-high');
+    }
+    
+    // Update volume bar gradient
+    volumeBar.style.background = `linear-gradient(to right, white 0%, white ${volumeBar.value}%, #4d4d4d ${volumeBar.value}%, #4d4d4d 100%)`;
 }
 
-// Initialize
-updateSongCards();
+// Toggle Mute
+function toggleMute() {
+    if (audioPlayer.volume > 0) {
+        audioPlayer.volume = 0;
+        volumeBar.value = 0;
+    } else {
+        audioPlayer.volume = 0.7;
+        volumeBar.value = 70;
+    }
+    updateVolume();
+}
+
+// Like Song
+function toggleLike() {
+    const heart = likeBtn.querySelector('i');
+    heart.classList.toggle('fa-regular');
+    heart.classList.toggle('fa-solid');
+    likeBtn.classList.toggle('active');
+}
+
+// Setup Event Listeners
+function setupEventListeners() {
+    // Playback controls
+    playPauseBtn.addEventListener('click', () => {
+        isPlaying ? pauseSong() : playSong();
+    });
+    
+    prevBtn.addEventListener('click', prevSong);
+    nextBtn.addEventListener('click', nextSong);
+    shuffleBtn.addEventListener('click', toggleShuffle);
+    repeatBtn.addEventListener('click', toggleRepeat);
+    
+    // Progress
+    audioPlayer.addEventListener('timeupdate', updateProgress);
+    seekBar.addEventListener('input', (e) => {
+        const time = (e.target.value / 100) * audioPlayer.duration;
+        audioPlayer.currentTime = time;
+    });
+    
+    // Volume
+    volumeBar.addEventListener('input', updateVolume);
+    volumeBtn.addEventListener('click', toggleMute);
+    
+    // Like button
+    likeBtn.addEventListener('click', toggleLike);
+    
+    // Song ended
+    audioPlayer.addEventListener('ended', () => {
+        if (repeatMode === 2) {
+            playSong();
+        } else if (repeatMode === 1 || currentSongIndex < songs.length - 1) {
+            nextSong();
+        } else {
+            pauseSong();
+        }
+    });
+    
+    // Song cards
+    songCards.forEach((card, index) => {
+        card.addEventListener('click', () => {
+            loadSong(parseInt(card.dataset.song));
+            playSong();
+        });
+    });
+    
+    // Playlist items
+    playlistItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            loadSong(parseInt(item.dataset.song));
+            playSong();
+        });
+    });
+    
+    // Initialize volume
+    updateVolume();
+}
+
+// Initialize app
+init();
