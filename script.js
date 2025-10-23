@@ -1,484 +1,274 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #000;
-    color: #fff;
-    overflow: hidden;
-}
-
-/* Sidebar */
-.sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 230px;
-    height: calc(100vh - 90px);
-    background-color: #000;
-    padding: 24px 12px;
-    overflow-y: auto;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 30px;
-    padding: 0 12px;
-}
-
-.logo i {
-    color: #1DB954;
-}
-
-.nav-menu {
-    list-style: none;
-    margin-bottom: 30px;
-}
-
-.nav-menu li {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 12px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.3s;
-    font-size: 14px;
-    font-weight: 600;
-    color: #b3b3b3;
-}
-
-.nav-menu li:hover {
-    color: #fff;
-}
-
-.nav-menu li.active {
-    color: #fff;
-}
-
-.nav-menu i {
-    font-size: 20px;
-}
-
-.playlists {
-    border-top: 1px solid #282828;
-    padding-top: 20px;
-}
-
-.playlists p {
-    padding: 8px 12px;
-    cursor: pointer;
-    font-size: 14px;
-    color: #b3b3b3;
-    transition: all 0.3s;
-}
-
-.playlists p:hover {
-    color: #fff;
-}
-
-/* Main Content */
-.main-content {
-    margin-left: 230px;
-    margin-bottom: 90px;
-    height: calc(100vh - 90px);
-    overflow-y: auto;
-    background: linear-gradient(180deg, #1e3a5f 0%, #121212 100%);
-}
-
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 32px;
-    background-color: rgba(0, 0, 0, 0.5);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.nav-buttons {
-    display: flex;
-    gap: 16px;
-}
-
-.nav-btn {
-    background-color: rgba(0, 0, 0, 0.7);
-    border: none;
-    color: #fff;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.nav-btn:hover {
-    background-color: rgba(0, 0, 0, 0.9);
-}
-
-.user-profile {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 4px 12px 4px 4px;
-    border-radius: 23px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.user-profile:hover {
-    background-color: rgba(0, 0, 0, 0.9);
-}
-
-.profile-icon {
-    width: 28px;
-    height: 28px;
-    background-color: #333;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.content {
-    padding: 24px 32px;
-}
-
-.content h1 {
-    margin-bottom: 24px;
-    font-size: 32px;
-}
-
-/* Song Grid */
-.song-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 24px;
-}
-
-.song-card {
-    background-color: #181818;
-    padding: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.song-card:hover {
-    background-color: #282828;
-}
-
-.song-image {
-    position: relative;
-    margin-bottom: 16px;
-}
-
-.song-image img {
-    width: 100%;
-    border-radius: 8px;
-    display: block;
-}
-
-.play-btn {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    width: 48px;
-    height: 48px;
-    background-color: #1DB954;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: all 0.3s;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
-
-.song-card:hover .play-btn {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.play-btn i {
-    color: #000;
-    font-size: 20px;
-    margin-left: 3px;
-}
-
-.song-card h3 {
-    font-size: 16px;
-    margin-bottom: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.song-card p {
-    font-size: 14px;
-    color: #b3b3b3;
-}
-
-/* Music Player */
-.music-player {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 90px;
-    background-color: #181818;
-    border-top: 1px solid #282828;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 16px;
-    z-index: 100;
-}
-
-.player-left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    width: 30%;
-}
-
-.player-left img {
-    width: 56px;
-    height: 56px;
-    border-radius: 4px;
-}
-
-.song-info p:first-child {
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.song-info p:last-child {
-    font-size: 12px;
-    color: #b3b3b3;
-}
-
-.player-left i {
-    color: #b3b3b3;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.player-left i:hover {
-    color: #1DB954;
-}
-
-.player-center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 40%;
-}
-
-.player-controls {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 8px;
-}
-
-.player-controls i {
-    color: #b3b3b3;
-    cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s;
-}
-
-.player-controls i:hover {
-    color: #fff;
-}
-
-.play-pause-btn {
-    width: 32px;
-    height: 32px;
-    background-color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.play-pause-btn:hover {
-    transform: scale(1.06);
-}
-
-.play-pause-btn i {
-    color: #000;
-    font-size: 14px;
-}
-
-.play-pause-btn .fa-play {
-    margin-left: 2px;
-}
-
-.progress-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-}
-
-.progress-bar span {
-    font-size: 12px;
-    color: #b3b3b3;
-}
-
-.progress-container {
-    flex: 1;
-    height: 4px;
-    background-color: #4d4d4d;
-    border-radius: 2px;
-    position: relative;
-    cursor: pointer;
-}
-
-.progress {
-    height: 100%;
-    background-color: #1DB954;
-    border-radius: 2px;
-    width: 0%;
-    position: relative;
-}
-
-.progress::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 12px;
-    height: 12px;
-    background-color: #fff;
-    border-radius: 50%;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.progress-container:hover .progress::after {
-    opacity: 1;
-}
-
-#progress-bar {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.player-right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    width: 30%;
-    justify-content: flex-end;
-}
-
-.player-right i {
-    color: #b3b3b3;
-    cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s;
-}
-
-.player-right i:hover {
-    color: #fff;
-}
-
-.volume-bar {
-    width: 100px;
-}
-
-.volume-bar input {
-    width: 100%;
-    cursor: pointer;
-}
-
-input[type="range"] {
-    -webkit-appearance: none;
-    background: transparent;
-}
-
-input[type="range"]::-webkit-slider-track {
-    background-color: #4d4d4d;
-    height: 4px;
-    border-radius: 2px;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    background-color: #fff;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin-top: -4px;
-    opacity: 0;
-}
-
-input[type="range"]:hover::-webkit-slider-thumb {
-    opacity: 1;
-}
-
-input[type="range"]::-webkit-slider-runnable-track {
-    background: linear-gradient(to right, #1DB954 0%, #1DB954 var(--progress, 0%), #4d4d4d var(--progress, 0%), #4d4d4d 100%);
-    height: 4px;
-    border-radius: 2px;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-    width: 12px;
-}
-
-::-webkit-scrollbar-track {
-    background: #000;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #282828;
-    border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #3e3e3e;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 80px;
+// Song database with real working audio and images
+const songs = [
+    {
+        name: "Inspire",
+        artist: "Bensound",
+        img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=300&h=300&fit=crop",
+        audio: "https://www.bensound.com/bensound-music/bensound-inspire.mp3"
+    },
+    {
+        name: "Creative Minds",
+        artist: "Bensound",
+        img: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=300&h=300&fit=crop",
+        audio: "https://www.bensound.com/bensound-music/bensound-creativeminds.mp3"
+    },
+    {
+        name: "Acoustic Breeze",
+        artist: "Bensound",
+        img: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop",
+        audio: "https://www.bensound.com/bensound-music/bensound-acousticbreeze.mp3"
+    },
+    {
+        name: "Sunny",
+        artist: "Bensound",
+        img: "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=300&h=300&fit=crop",
+        audio: "https://www.bensound.com/bensound-music/bensound-sunny.mp3"
+    },
+    {
+        name: "Tenderness",
+        artist: "Bensound",
+        img: "https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=300&h=300&fit=crop",
+        audio: "https://www.bensound.com/bensound-music/bensound-tenderness.mp3"
+    },
+    {
+        name: "Once Again",
+        artist: "Bensound",
+        img: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=300&h=300&fit=crop",
+        audio: "https://www.bensound.com/bensound-music/bensound-onceagain.mp3"
+    },
+    {
+        name: "Sweet",
+        artist: "Bensound",
+        img: "https://images.unsplash.com/photo-1458560871784-56d23406c091?w=300&h=300&fit=crop",
+        audio: "https://www.bensound.com/bensound-music/bensound-sweet.mp3"
+    },
+    {
+        name: "Love",
+        artist: "Bensound",
+        img: "https://images.unsplash.com/photo-1476842384041-a57a4f124e2e?w=300&h=300&fit=crop",
+        audio: "https://www.bensound.com/bensound-music/bensound-love.mp3"
+    },
+    {
+        name: "Piano Moment",
+        artist: "Bensound",
+        img: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=300&h=300&fit=crop",
+        audio: "https://www.bensound.com/bensound-music/bensound-pianomoment.mp3"
+    },
+    {
+        name: "E.R.F",
+        artist: "Bensound",
+        img: "https://images.unsplash.com/photo-1485579149621-3123dd979885?w=300&h=300&fit=crop",
+        audio: "https://www.bensound.com/bensound-music/bensound-erf.mp3"
+    },
+    {
+        name: "Dreams",
+        artist: "Bensound",
+        img: "https://images.unsplash.com/photo-1446057032654-9d8885db76c6?w=300&h=300&fit=crop",
+        audio: "https://www.bensound.com/bensound-music/bensound-dreams.mp3"
+    },
+    {
+        name: "A Day To Remember",
+        artist: "Bensound",
+        img: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=300&h=300&fit=crop",
+        audio: "https://www.bensound.com/bensound-music/bensound-adaytoremember.mp3"
     }
+];
 
-    .sidebar span {
-        display: none;
-    }
+// Get elements
+const audioPlayer = document.getElementById('audio-player');
+const playPauseBtn = document.getElementById('play-pause-btn');
+const playIcon = document.getElementById('play-icon');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const progressBar = document.getElementById('progress-bar');
+const progress = document.getElementById('progress');
+const currentTimeEl = document.getElementById('current-time');
+const durationEl = document.getElementById('duration');
+const volumeBar = document.getElementById('volume-bar');
+const currentSongImg = document.getElementById('current-song-img');
+const currentSongName = document.getElementById('current-song-name');
+const currentArtistName = document.getElementById('current-artist-name');
+const songCards = document.querySelectorAll('.song-card');
 
-    .main-content {
-        margin-left: 80px;
-    }
+let currentSongIndex = 0;
+let isPlaying = false;
 
-    .song-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    }
-
-    .player-right .volume-bar {
-        display: none;
-    }
+// Load song
+function loadSong(index) {
+    currentSongIndex = index;
+    const song = songs[index];
+    
+    audioPlayer.src = song.audio;
+    currentSongImg.src = song.img;
+    currentSongName.textContent = song.name;
+    currentArtistName.textContent = song.artist;
+    
+    // Update active state on cards
+    updateActiveCard();
 }
+
+// Update active card styling
+function updateActiveCard() {
+    songCards.forEach((card, index) => {
+        if (index === currentSongIndex) {
+            card.style.backgroundColor = '#282828';
+        } else {
+            card.style.backgroundColor = '#181818';
+        }
+    });
+}
+
+// Play song
+function playSong() {
+    isPlaying = true;
+    audioPlayer.play();
+    playIcon.classList.remove('fa-play');
+    playIcon.classList.add('fa-pause');
+    
+    // Update play button icons on cards
+    updatePlayButtonIcons();
+}
+
+// Pause song
+function pauseSong() {
+    isPlaying = false;
+    audioPlayer.pause();
+    playIcon.classList.remove('fa-pause');
+    playIcon.classList.add('fa-play');
+    
+    updatePlayButtonIcons();
+}
+
+// Update play button icons on song cards
+function updatePlayButtonIcons() {
+    songCards.forEach((card, index) => {
+        const playBtn = card.querySelector('.play-btn i');
+        if (index === currentSongIndex && isPlaying) {
+            playBtn.classList.remove('fa-play');
+            playBtn.classList.add('fa-pause');
+        } else {
+            playBtn.classList.remove('fa-pause');
+            playBtn.classList.add('fa-play');
+        }
+    });
+}
+
+// Play/Pause toggle
+playPauseBtn.addEventListener('click', () => {
+    if (isPlaying) {
+        pauseSong();
+    } else {
+        playSong();
+    }
+});
+
+// Previous song
+prevBtn.addEventListener('click', () => {
+    currentSongIndex--;
+    if (currentSongIndex < 0) {
+        currentSongIndex = songs.length - 1;
+    }
+    loadSong(currentSongIndex);
+    playSong();
+});
+
+// Next song
+nextBtn.addEventListener('click', () => {
+    currentSongIndex++;
+    if (currentSongIndex > songs.length - 1) {
+        currentSongIndex = 0;
+    }
+    loadSong(currentSongIndex);
+    playSong();
+});
+
+// Update progress bar
+audioPlayer.addEventListener('timeupdate', () => {
+    const { duration, currentTime } = audioPlayer;
+    const progressPercent = (currentTime / duration) * 100;
+    progress.style.width = `${progressPercent}%`;
+    progressBar.value = progressPercent;
+
+    // Update time
+    currentTimeEl.textContent = formatTime(currentTime);
+    if (duration) {
+        durationEl.textContent = formatTime(duration);
+    }
+});
+
+// Set progress bar
+progressBar.addEventListener('input', (e) => {
+    const value = e.target.value;
+    const time = (value / 100) * audioPlayer.duration;
+    audioPlayer.currentTime = time;
+    progress.style.width = `${value}%`;
+});
+
+// Volume control
+volumeBar.addEventListener('input', (e) => {
+    const volume = e.target.value / 100;
+    audioPlayer.volume = volume;
+    e.target.style.setProperty('--progress', `${e.target.value}%`);
+});
+
+// Set initial volume
+audioPlayer.volume = 0.7;
+volumeBar.style.setProperty('--progress', '70%');
+
+// Format time
+function formatTime(time) {
+    if (isNaN(time)) return '0:00';
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+}
+
+// Song card click events
+songCards.forEach((card, index) => {
+    card.addEventListener('click', (e) => {
+        // If clicking on the same song that's playing, toggle play/pause
+        if (index === currentSongIndex && isPlaying) {
+            pauseSong();
+        } else if (index === currentSongIndex && !isPlaying) {
+            playSong();
+        } else {
+            // Load and play new song
+            loadSong(index);
+            playSong();
+        }
+    });
+});
+
+// Auto play next song
+audioPlayer.addEventListener('ended', () => {
+    nextBtn.click();
+});
+
+// Handle loading errors
+audioPlayer.addEventListener('error', (e) => {
+    console.error('Error loading audio:', e);
+    alert('Error loading this song. Trying next song...');
+    nextBtn.click();
+});
+
+// Load first song on page load
+loadSong(0);
+
+// Update song cards with dynamic content
+function updateSongCards() {
+    songCards.forEach((card, index) => {
+        if (songs[index]) {
+            const img = card.querySelector('.song-image img');
+            const title = card.querySelector('h3');
+            const artist = card.querySelector('p');
+            
+            img.src = songs[index].img;
+            img.alt = songs[index].name;
+            title.textContent = songs[index].name;
+            artist.textContent = songs[index].artist;
+        }
+    });
+}
+
+// Initialize
+updateSongCards();
