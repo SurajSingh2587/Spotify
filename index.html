@@ -1,133 +1,376 @@
-<div class="song-grid">
-    <div class="song-card" data-song="0">
-        <div class="song-image">
-            <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=300&h=300&fit=crop" alt="Song 1">
-            <div class="play-btn">
-                <i class="fa-solid fa-play"></i>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify - Web Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fa-brands fa-spotify"></i>
+            <span>Spotify</span>
         </div>
-        <h3>Inspire</h3>
-        <p>Bensound</p>
-    </div>
+        
+        <nav class="nav-menu">
+            <ul>
+                <li class="active">
+                    <a href="#">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span>Search</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-book"></i>
+                        <span>Your Library</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-    <div class="song-card" data-song="1">
-        <div class="song-image">
-            <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=300&h=300&fit=crop" alt="Song 2">
-            <div class="play-btn">
-                <i class="fa-solid fa-play"></i>
-            </div>
-        </div>
-        <h3>Creative Minds</h3>
-        <p>Bensound</p>
-    </div>
+        <nav class="nav-menu mt-20">
+            <ul>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Create Playlist</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-heart"></i>
+                        <span>Liked Songs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-bookmark"></i>
+                        <span>Your Episodes</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-    <div class="song-card" data-song="2">
-        <div class="song-image">
-            <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop" alt="Song 3">
-            <div class="play-btn">
-                <i class="fa-solid fa-play"></i>
-            </div>
+        <div class="playlists">
+            <a href="#">My Playlist #1</a>
+            <a href="#">My Playlist #2</a>
+            <a href="#">Discover Weekly</a>
+            <a href="#">Chill Vibes</a>
+            <a href="#">Rock Classics</a>
+            <a href="#">Indie Mix</a>
+            <a href="#">Workout Beats</a>
+            <a href="#">Study Music</a>
+            <a href="#">Party Hits</a>
         </div>
-        <h3>Acoustic Breeze</h3>
-        <p>Bensound</p>
-    </div>
 
-    <div class="song-card" data-song="3">
-        <div class="song-image">
-            <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?w=300&h=300&fit=crop" alt="Song 4">
-            <div class="play-btn">
-                <i class="fa-solid fa-play"></i>
-            </div>
+        <div class="install-app">
+            <i class="fa-solid fa-download"></i>
+            <span>Install App</span>
         </div>
-        <h3>Sunny</h3>
-        <p>Bensound</p>
-    </div>
+    </aside>
 
-    <div class="song-card" data-song="4">
-        <div class="song-image">
-            <img src="https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=300&h=300&fit=crop" alt="Song 5">
-            <div class="play-btn">
-                <i class="fa-solid fa-play"></i>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="nav-buttons">
+                <button class="nav-btn" id="back-btn">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button class="nav-btn" id="forward-btn">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
             </div>
-        </div>
-        <h3>Tenderness</h3>
-        <p>Bensound</p>
-    </div>
+            
+            <div class="topbar-right">
+                <button class="upgrade-btn">Upgrade</button>
+                <div class="user-profile">
+                    <div class="profile-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <span>Music Lover</span>
+                    <i class="fa-solid fa-caret-down"></i>
+                </div>
+            </div>
+        </header>
 
-    <div class="song-card" data-song="5">
-        <div class="song-image">
-            <img src="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=300&h=300&fit=crop" alt="Song 6">
-            <div class="play-btn">
-                <i class="fa-solid fa-play"></i>
-            </div>
-        </div>
-        <h3>Once Again</h3>
-        <p>Bensound</p>
-    </div>
+        <!-- Content -->
+        <div class="content">
+            <!-- Greeting Section -->
+            <section class="greeting-section">
+                <h1 id="greeting">Good Evening</h1>
+            </section>
 
-    <div class="song-card" data-song="6">
-        <div class="song-image">
-            <img src="https://images.unsplash.com/photo-1458560871784-56d23406c091?w=300&h=300&fit=crop" alt="Song 7">
-            <div class="play-btn">
-                <i class="fa-solid fa-play"></i>
-            </div>
-        </div>
-        <h3>Sweet</h3>
-        <p>Bensound</p>
-    </div>
+            <!-- Recently Played -->
+            <section class="recently-played">
+                <div class="playlist-grid">
+                    <div class="playlist-item" data-song="0">
+                        <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=80&h=80&fit=crop" alt="Playlist">
+                        <span>Inspire</span>
+                        <div class="playlist-play-btn">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="playlist-item" data-song="1">
+                        <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=80&h=80&fit=crop" alt="Playlist">
+                        <span>Creative Minds</span>
+                        <div class="playlist-play-btn">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="playlist-item" data-song="2">
+                        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=80&h=80&fit=crop" alt="Playlist">
+                        <span>Acoustic Breeze</span>
+                        <div class="playlist-play-btn">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="playlist-item" data-song="3">
+                        <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?w=80&h=80&fit=crop" alt="Playlist">
+                        <span>Sunny</span>
+                        <div class="playlist-play-btn">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="playlist-item" data-song="4">
+                        <img src="https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=80&h=80&fit=crop" alt="Playlist">
+                        <span>Tenderness</span>
+                        <div class="playlist-play-btn">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="playlist-item" data-song="5">
+                        <img src="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=80&h=80&fit=crop" alt="Playlist">
+                        <span>Once Again</span>
+                        <div class="playlist-play-btn">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    <div class="song-card" data-song="7">
-        <div class="song-image">
-            <img src="https://images.unsplash.com/photo-1476842384041-a57a4f124e2e?w=300&h=300&fit=crop" alt="Song 8">
-            <div class="play-btn">
-                <i class="fa-solid fa-play"></i>
-            </div>
-        </div>
-        <h3>Love</h3>
-        <p>Bensound</p>
-    </div>
+            <!-- Your Top Mixes -->
+            <section class="music-section">
+                <div class="section-header">
+                    <h2>Your top mixes</h2>
+                    <a href="#" class="see-all">SEE ALL</a>
+                </div>
+                <div class="song-grid">
+                    <div class="song-card" data-song="0">
+                        <div class="song-image">
+                            <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=300&h=300&fit=crop" alt="Song">
+                            <div class="play-btn">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+                        <h3>Inspire</h3>
+                        <p>Uplifting and motivational tracks</p>
+                    </div>
+                    <div class="song-card" data-song="1">
+                        <div class="song-image">
+                            <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=300&h=300&fit=crop" alt="Song">
+                            <div class="play-btn">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+                        <h3>Creative Minds</h3>
+                        <p>For creative work and focus</p>
+                    </div>
+                    <div class="song-card" data-song="2">
+                        <div class="song-image">
+                            <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop" alt="Song">
+                            <div class="play-btn">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+                        <h3>Acoustic Breeze</h3>
+                        <p>Relaxing acoustic melodies</p>
+                    </div>
+                    <div class="song-card" data-song="3">
+                        <div class="song-image">
+                            <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?w=300&h=300&fit=crop" alt="Song">
+                            <div class="play-btn">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+                        <h3>Sunny</h3>
+                        <p>Bright and cheerful tunes</p>
+                    </div>
+                    <div class="song-card" data-song="4">
+                        <div class="song-image">
+                            <img src="https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=300&h=300&fit=crop" alt="Song">
+                            <div class="play-btn">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+                        <h3>Tenderness</h3>
+                        <p>Soft and gentle music</p>
+                    </div>
+                    <div class="song-card" data-song="5">
+                        <div class="song-image">
+                            <img src="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=300&h=300&fit=crop" alt="Song">
+                            <div class="play-btn">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+                        <h3>Once Again</h3>
+                        <p>Timeless classics</p>
+                    </div>
+                </div>
+            </section>
 
-    <div class="song-card" data-song="8">
-        <div class="song-image">
-            <img src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=300&h=300&fit=crop" alt="Song 9">
-            <div class="play-btn">
-                <i class="fa-solid fa-play"></i>
-            </div>
+            <!-- Made for You -->
+            <section class="music-section">
+                <div class="section-header">
+                    <h2>Made for you</h2>
+                    <a href="#" class="see-all">SEE ALL</a>
+                </div>
+                <div class="song-grid">
+                    <div class="song-card" data-song="6">
+                        <div class="song-image">
+                            <img src="https://images.unsplash.com/photo-1458560871784-56d23406c091?w=300&h=300&fit=crop" alt="Song">
+                            <div class="play-btn">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+                        <h3>Sweet</h3>
+                        <p>Sweet melodies for your soul</p>
+                    </div>
+                    <div class="song-card" data-song="7">
+                        <div class="song-image">
+                            <img src="https://images.unsplash.com/photo-1476842384041-a57a4f124e2e?w=300&h=300&fit=crop" alt="Song">
+                            <div class="play-btn">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+                        <h3>Love</h3>
+                        <p>Romantic and heartfelt</p>
+                    </div>
+                    <div class="song-card" data-song="8">
+                        <div class="song-image">
+                            <img src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=300&h=300&fit=crop" alt="Song">
+                            <div class="play-btn">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+                        <h3>Piano Moment</h3>
+                        <p>Beautiful piano compositions</p>
+                    </div>
+                    <div class="song-card" data-song="9">
+                        <div class="song-image">
+                            <img src="https://images.unsplash.com/photo-1485579149621-3123dd979885?w=300&h=300&fit=crop" alt="Song">
+                            <div class="play-btn">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+                        <h3>E.R.F</h3>
+                        <p>Electronic vibes</p>
+                    </div>
+                    <div class="song-card" data-song="10">
+                        <div class="song-image">
+                            <img src="https://images.unsplash.com/photo-1446057032654-9d8885db76c6?w=300&h=300&fit=crop" alt="Song">
+                            <div class="play-btn">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+                        <h3>Dreams</h3>
+                        <p>Dreamy soundscapes</p>
+                    </div>
+                    <div class="song-card" data-song="11">
+                        <div class="song-image">
+                            <img src="https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=300&h=300&fit=crop" alt="Song">
+                            <div class="play-btn">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+                        <h3>A Day To Remember</h3>
+                        <p>Memorable moments in music</p>
+                    </div>
+                </div>
+            </section>
         </div>
-        <h3>Piano Moment</h3>
-        <p>Bensound</p>
-    </div>
+    </main>
 
-    <div class="song-card" data-song="9">
-        <div class="song-image">
-            <img src="https://images.unsplash.com/photo-1485579149621-3123dd979885?w=300&h=300&fit=crop" alt="Song 10">
-            <div class="play-btn">
-                <i class="fa-solid fa-play"></i>
+    <!-- Music Player -->
+    <footer class="music-player">
+        <!-- Left Side -->
+        <div class="player-left">
+            <img id="current-song-img" src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=56&h=56&fit=crop" alt="Song">
+            <div class="song-info">
+                <p id="current-song-name">Inspire</p>
+                <p id="current-artist-name">Bensound</p>
             </div>
+            <button class="icon-btn" id="like-btn">
+                <i class="fa-regular fa-heart"></i>
+            </button>
+            <button class="icon-btn">
+                <i class="fa-solid fa-rectangle-ad"></i>
+            </button>
         </div>
-        <h3>E.R.F</h3>
-        <p>Bensound</p>
-    </div>
 
-    <div class="song-card" data-song="10">
-        <div class="song-image">
-            <img src="https://images.unsplash.com/photo-1446057032654-9d8885db76c6?w=300&h=300&fit=crop" alt="Song 11">
-            <div class="play-btn">
-                <i class="fa-solid fa-play"></i>
+        <!-- Center -->
+        <div class="player-center">
+            <div class="player-controls">
+                <button class="control-btn" id="shuffle-btn">
+                    <i class="fa-solid fa-shuffle"></i>
+                </button>
+                <button class="control-btn" id="prev-btn">
+                    <i class="fa-solid fa-step-backward"></i>
+                </button>
+                <button class="play-pause-btn" id="play-pause-btn">
+                    <i class="fa-solid fa-play" id="play-icon"></i>
+                </button>
+                <button class="control-btn" id="next-btn">
+                    <i class="fa-solid fa-step-forward"></i>
+                </button>
+                <button class="control-btn" id="repeat-btn">
+                    <i class="fa-solid fa-repeat"></i>
+                </button>
+            </div>
+            <div class="progress-container">
+                <span id="current-time">0:00</span>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                    <input type="range" id="seek-bar" min="0" max="100" value="0">
+                </div>
+                <span id="duration">0:00</span>
             </div>
         </div>
-        <h3>Dreams</h3>
-        <p>Bensound</p>
-    </div>
 
-    <div class="song-card" data-song="11">
-        <div class="song-image">
-            <img src="https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=300&h=300&fit=crop" alt="Song 12">
-            <div class="play-btn">
-                <i class="fa-solid fa-play"></i>
+        <!-- Right Side -->
+        <div class="player-right">
+            <button class="icon-btn">
+                <i class="fa-solid fa-microphone"></i>
+            </button>
+            <button class="icon-btn">
+                <i class="fa-solid fa-list"></i>
+            </button>
+            <button class="icon-btn">
+                <i class="fa-solid fa-computer"></i>
+            </button>
+            <button class="icon-btn" id="volume-btn">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <div class="volume-control">
+                <input type="range" id="volume-bar" min="0" max="100" value="70">
             </div>
+            <button class="icon-btn">
+                <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+            </button>
         </div>
-        <h3>A Day To Remember</h3>
-        <p>Bensound</p>
-    </div>
-</div>
+    </footer>
+
+    <audio id="audio-player"></audio>
+    <script src="script.js"></script>
+</body>
+</html>
