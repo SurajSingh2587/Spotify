@@ -1,376 +1,389 @@
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+import React, { useState, useRef, useEffect } from 'react';
+import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, Heart, Search, Home, Library, Plus, List, Shuffle, Repeat } from 'lucide-react';
 
-  render() {
-    return /*#__PURE__*/(
-      React.createElement("div", null, /*#__PURE__*/
-        React.createElement(Menu, null), /*#__PURE__*/
-        React.createElement(MainContent, null)));
+const SpotifyClone = () => {
+  const audioRef = useRef(null);
+  const [currentSong, setCurrentSong] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(0.7);
+  const [isMuted, setIsMuted] = useState(false);
+  const [likedSongs, setLikedSongs] = useState(new Set());
+  const [activeTab, setActiveTab] = useState('home');
 
+  const songs = [
+    {
+      id: 1,
+      title: "Summer Breeze",
+      artist: "Chill Vibes",
+      album: "Relaxation",
+      duration: "3:24",
+      image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=300&h=300&fit=crop",
+      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+    },
+    {
+      id: 2,
+      title: "Night Drive",
+      artist: "Urban Beats",
+      album: "Midnight Sessions",
+      duration: "4:12",
+      image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop",
+      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+    },
+    {
+      id: 3,
+      title: "Ocean Waves",
+      artist: "Nature Sounds",
+      album: "Peaceful Moments",
+      duration: "5:18",
+      image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop",
+      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+    },
+    {
+      id: 4,
+      title: "Electric Dreams",
+      artist: "Synth Wave",
+      album: "Neon Nights",
+      duration: "3:56",
+      image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=300&h=300&fit=crop",
+      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
+    },
+    {
+      id: 5,
+      title: "Mountain Echo",
+      artist: "Acoustic Soul",
+      album: "Wilderness",
+      duration: "4:45",
+      image: "https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=300&h=300&fit=crop",
+      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"
+    },
+    {
+      id: 6,
+      title: "City Lights",
+      artist: "Jazz Collective",
+      album: "Urban Stories",
+      duration: "3:38",
+      image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=300&h=300&fit=crop",
+      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
+    }
+  ];
 
-  }
-}
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
 
+    const updateTime = () => setCurrentTime(audio.currentTime);
+    const updateDuration = () => setDuration(audio.duration);
+    const handleEnded = () => {
+      if (currentSong < songs.length - 1) {
+        setCurrentSong(currentSong + 1);
+      } else {
+        setIsPlaying(false);
+      }
+    };
 
-const Menu = () => {
-  return /*#__PURE__*/(
-    React.createElement("div", { id: "menu-bar", class: "menu-bar" }, /*#__PURE__*/
-      React.createElement("span", null, /*#__PURE__*/React.createElement("a", { href: "#" }, /*#__PURE__*/React.createElement("img", { src: "https://getheavy.com/wp-content/uploads/2019/12/spotify2019-830x350.jpg", alt: "Spotify Logo" }))), /*#__PURE__*/
-      React.createElement("nav", { class: "navbar" }, /*#__PURE__*/
-        React.createElement("ul", null, /*#__PURE__*/
-          React.createElement("li", null, /*#__PURE__*/React.createElement("a", { class: "active", href: "#" }, /*#__PURE__*/React.createElement("svg", { viewBox: "0 0 512 512", width: "24", height: "24", xmlns: "http://www.w3.org/2000/svg" }, /*#__PURE__*/React.createElement("path", { d: "M448 463.746h-149.333v-149.333h-85.334v149.333h-149.333v-315.428l192-111.746 192 110.984v316.19z", fill: "currentColor" })), "Home")), /*#__PURE__*/
-          React.createElement("li", null, /*#__PURE__*/React.createElement("a", { href: "#" }, /*#__PURE__*/React.createElement("svg", { viewBox: "0 0 512 512", width: "24", height: "24", xmlns: "http://www.w3.org/2000/svg" }, /*#__PURE__*/React.createElement("path", { d: "M349.714 347.937l93.714 109.969-16.254 13.969-93.969-109.969q-48.508 36.825-109.207 36.825-36.826 0-70.476-14.349t-57.905-38.603-38.603-57.905-14.349-70.476 14.349-70.476 38.603-57.905 57.905-38.603 70.476-14.349 70.476 14.349 57.905 38.603 38.603 57.905 14.349 70.476q0 37.841-14.73 71.619t-40.889 58.921zM224 377.397q43.428 0 80.254-21.461t58.286-58.286 21.461-80.254-21.461-80.254-58.286-58.285-80.254-21.46-80.254 21.46-58.285 58.285-21.46 80.254 21.46 80.254 58.285 58.286 80.254 21.461z", fill: "currentColor", "fill-rule": "evenodd" })), "Search")), /*#__PURE__*/
-          React.createElement("li", null, /*#__PURE__*/React.createElement("a", { href: "#" }, /*#__PURE__*/React.createElement("svg", { viewBox: "0 0 512 512", width: "24", height: "24", xmlns: "http://www.w3.org/2000/svg" }, /*#__PURE__*/React.createElement("path", { d: "M291.301 81.778l166.349 373.587-19.301 8.635-166.349-373.587zM64 463.746v-384h21.334v384h-21.334zM192 463.746v-384h21.334v384h-21.334z", fill: "currentColor" })), "Your Library")))), /*#__PURE__*/
+    audio.addEventListener('timeupdate', updateTime);
+    audio.addEventListener('loadedmetadata', updateDuration);
+    audio.addEventListener('ended', handleEnded);
 
+    return () => {
+      audio.removeEventListener('timeupdate', updateTime);
+      audio.removeEventListener('loadedmetadata', updateDuration);
+      audio.removeEventListener('ended', handleEnded);
+    };
+  }, [currentSong, songs.length]);
 
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = isMuted ? 0 : volume;
+    }
+  }, [volume, isMuted]);
 
-      React.createElement("nav", { class: "user-collection" }, /*#__PURE__*/
-        React.createElement("ul", null, /*#__PURE__*/
-          React.createElement("li", null, /*#__PURE__*/React.createElement("a", { href: "#" }, /*#__PURE__*/React.createElement("i", { class: "fa fa-plus-square fa-lg", "aria-hidden": "true" }), "Create Playlist")), /*#__PURE__*/
-          React.createElement("li", null, /*#__PURE__*/React.createElement("a", { href: "#" }, /*#__PURE__*/React.createElement("i", { class: "fa fa-heart fa-lg", "aria-hidden": "true" }), "Liked Songs")), /*#__PURE__*/
-          React.createElement("li", null, /*#__PURE__*/React.createElement("a", { href: "#" }, /*#__PURE__*/React.createElement("i", { class: "fa fa-podcast fa-lg", "aria-hidden": "true" }), "Your Episodes")))), /*#__PURE__*/
-
-
-
-      React.createElement("span", { class: "install-app" }, /*#__PURE__*/React.createElement("a", { href: "#" }, /*#__PURE__*/React.createElement("i", { class: "fa fa-arrow-circle-down fa-lg", "aria-hidden": "true" }), "Install App"))));
-
-
-};
-
-const MainContent = () => {
-  return /*#__PURE__*/(
-    React.createElement("div", { class: "main-content" }, /*#__PURE__*/
-      React.createElement(Header, null), /*#__PURE__*/
-      React.createElement(Body, null)));
-
-
-};
-
-const Header = () => {
-  const [profileVisibility, setProfileVisibility] = React.useState('hidden');
-  const handleClick = () => {
-    if (profileVisibility == 'hidden') {
-      setProfileVisibility('visible');
+  useEffect(() => {
+    if (isPlaying) {
+      audioRef.current?.play();
     } else {
-      setProfileVisibility('hidden');
+      audioRef.current?.pause();
+    }
+  }, [isPlaying, currentSong]);
+
+  const togglePlay = () => setIsPlaying(!isPlaying);
+
+  const handlePrevious = () => {
+    if (currentSong > 0) {
+      setCurrentSong(currentSong - 1);
+      setIsPlaying(true);
     }
   };
 
-  const [menuBarVisibility, setMenuBarVisibility] = React.useState('visible');
-  const handleMenuBar = () => {
-    if (menuBarVisibility == 'hidden') {
-      setMenuBarVisibility('visible');
-      document.getElementById('bar1').style.transform = 'none';
-      document.getElementById('bar1').style.transition = 'transform .4s ease';
-      document.getElementById('bar2').style.opacity = 1;
-      document.getElementById('bar2').style.transition = 'opacity .5s ease';
-      document.getElementById('bar3').style.transform = 'none';
-      document.getElementById('bar3').style.transition = 'transform .4s ease';
-      document.getElementById('menu-bar').style.transition = 'visibility .2s ease-in-out';
-    } else {
-      setMenuBarVisibility('hidden');
-      document.getElementById('bar1').style.transform = 'rotate(-45deg) translate(-9px, 6px)';
-      document.getElementById('bar1').style.transition = 'transform .4s ease';
-      document.getElementById('bar2').style.opacity = 0;
-      document.getElementById('bar2').style.transition = 'opacity .5s ease';
-      document.getElementById('bar3').style.transform = 'rotate(45deg)translate(-5px, -3px)';
-      document.getElementById('bar3').style.transition = 'transform .4s ease';
-      document.getElementById('menu-bar').style.transition = 'visibility .2s ease-n-out';
-
+  const handleNext = () => {
+    if (currentSong < songs.length - 1) {
+      setCurrentSong(currentSong + 1);
+      setIsPlaying(true);
     }
-    document.getElementById('menu-bar').style.visibility = menuBarVisibility;
   };
-  return /*#__PURE__*/(
-    React.createElement("header", null, /*#__PURE__*/
-      React.createElement("div", null, /*#__PURE__*/
-        React.createElement("div", { onClick: handleMenuBar, class: "hamburger" }, /*#__PURE__*/
-          React.createElement("div", { id: "bar1", class: "bar1" }), /*#__PURE__*/
-          React.createElement("div", { id: "bar2", class: "bar2" }), /*#__PURE__*/
-          React.createElement("div", { id: "bar3", class: "bar3" })), /*#__PURE__*/
 
-        React.createElement("div", { class: "dropdown" }, /*#__PURE__*/
-          React.createElement("button", { onClick: handleClick }, /*#__PURE__*/
-            React.createElement("i", { class: "fa fa-user-circle fa-lg", "aria-hidden": "true" }), "curious_coder", /*#__PURE__*/
+  const handleSeek = (e) => {
+    const seekTime = (e.target.value / 100) * duration;
+    audioRef.current.currentTime = seekTime;
+    setCurrentTime(seekTime);
+  };
 
-            React.createElement("i", { className: `fa fa-caret-${profileVisibility == 'hidden' ? 'down' : 'up'}`, "aria-hidden": "true" })), /*#__PURE__*/
+  const toggleMute = () => setIsMuted(!isMuted);
 
-          React.createElement("ul", { style: { visibility: `${profileVisibility}` } }, /*#__PURE__*/
-            React.createElement("li", null, /*#__PURE__*/React.createElement("a", { href: "#", target: "_blank" }, "Account", /*#__PURE__*/React.createElement("i", { class: "fa fa-external-link", "aria-hidden": "true" }))), /*#__PURE__*/
+  const toggleLike = (id) => {
+    const newLiked = new Set(likedSongs);
+    if (newLiked.has(id)) {
+      newLiked.delete(id);
+    } else {
+      newLiked.add(id);
+    }
+    setLikedSongs(newLiked);
+  };
 
-            React.createElement("li", null, /*#__PURE__*/React.createElement("a", { href: "#" }, "Profile")), /*#__PURE__*/
-            React.createElement("li", null, /*#__PURE__*/React.createElement("a", { href: "#" }, "Log Out")))))));
+  const formatTime = (time) => {
+    if (isNaN(time)) return '0:00';
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
 
+  const playSong = (index) => {
+    setCurrentSong(index);
+    setIsPlaying(true);
+  };
 
+  return (
+    <div className="flex flex-col h-screen bg-black text-white">
+      <audio ref={audioRef} src={songs[currentSong].audio} />
+      
+      {/* Main Container */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar */}
+        <div className="w-64 bg-black p-6 flex flex-col">
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold text-green-500">Spotify</h1>
+          </div>
+          
+          <nav className="space-y-4 flex-1">
+            <button 
+              onClick={() => setActiveTab('home')}
+              className={`flex items-center space-x-4 w-full p-2 rounded ${activeTab === 'home' ? 'bg-gray-800' : 'hover:bg-gray-900'}`}
+            >
+              <Home size={24} />
+              <span className="font-semibold">Home</span>
+            </button>
+            <button 
+              onClick={() => setActiveTab('search')}
+              className={`flex items-center space-x-4 w-full p-2 rounded ${activeTab === 'search' ? 'bg-gray-800' : 'hover:bg-gray-900'}`}
+            >
+              <Search size={24} />
+              <span className="font-semibold">Search</span>
+            </button>
+            <button 
+              onClick={() => setActiveTab('library')}
+              className={`flex items-center space-x-4 w-full p-2 rounded ${activeTab === 'library' ? 'bg-gray-800' : 'hover:bg-gray-900'}`}
+            >
+              <Library size={24} />
+              <span className="font-semibold">Your Library</span>
+            </button>
+            
+            <div className="pt-6">
+              <button className="flex items-center space-x-4 w-full p-2 hover:bg-gray-900 rounded">
+                <Plus size={24} />
+                <span className="font-semibold">Create Playlist</span>
+              </button>
+              <button className="flex items-center space-x-4 w-full p-2 hover:bg-gray-900 rounded mt-2">
+                <Heart size={24} className="text-purple-500" />
+                <span className="font-semibold">Liked Songs</span>
+              </button>
+            </div>
+          </nav>
+        </div>
 
+        {/* Main Content */}
+        <div className="flex-1 bg-gradient-to-b from-gray-900 to-black overflow-y-auto">
+          <div className="p-8">
+            <h2 className="text-3xl font-bold mb-6">Good evening</h2>
+            
+            {/* Recently Played */}
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              {songs.slice(0, 6).map((song, index) => (
+                <button
+                  key={song.id}
+                  onClick={() => playSong(index)}
+                  className="flex items-center bg-gray-800 hover:bg-gray-700 rounded transition-colors group"
+                >
+                  <img src={song.image} alt={song.title} className="w-20 h-20 rounded-l" />
+                  <span className="px-4 font-semibold truncate">{song.title}</span>
+                  <div className={`ml-auto mr-4 ${currentSong === index && isPlaying ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity`}>
+                    <Play size={20} className="fill-current" />
+                  </div>
+                </button>
+              ))}
+            </div>
 
+            {/* All Songs */}
+            <h2 className="text-2xl font-bold mb-4">Your Playlist</h2>
+            <div className="bg-gray-900 bg-opacity-40 rounded-lg p-4">
+              <div className="grid grid-cols-12 gap-4 px-4 pb-2 text-gray-400 text-sm border-b border-gray-800">
+                <div className="col-span-1">#</div>
+                <div className="col-span-5">TITLE</div>
+                <div className="col-span-3">ALBUM</div>
+                <div className="col-span-2"></div>
+                <div className="col-span-1">TIME</div>
+              </div>
+              
+              {songs.map((song, index) => (
+                <div
+                  key={song.id}
+                  className={`grid grid-cols-12 gap-4 px-4 py-2 rounded hover:bg-gray-800 group ${currentSong === index ? 'bg-gray-800' : ''}`}
+                >
+                  <div className="col-span-1 flex items-center">
+                    {currentSong === index && isPlaying ? (
+                      <div className="text-green-500">♫</div>
+                    ) : (
+                      <button
+                        onClick={() => playSong(index)}
+                        className="opacity-0 group-hover:opacity-100"
+                      >
+                        <Play size={16} className="fill-current" />
+                      </button>
+                    )}
+                    <span className="group-hover:hidden">{index + 1}</span>
+                  </div>
+                  <div className="col-span-5 flex items-center space-x-3">
+                    <img src={song.image} alt={song.title} className="w-10 h-10 rounded" />
+                    <div>
+                      <div className={`font-semibold ${currentSong === index ? 'text-green-500' : ''}`}>
+                        {song.title}
+                      </div>
+                      <div className="text-sm text-gray-400">{song.artist}</div>
+                    </div>
+                  </div>
+                  <div className="col-span-3 flex items-center text-gray-400">
+                    {song.album}
+                  </div>
+                  <div className="col-span-2 flex items-center justify-end">
+                    <button
+                      onClick={() => toggleLike(song.id)}
+                      className="opacity-0 group-hover:opacity-100"
+                    >
+                      <Heart
+                        size={20}
+                        className={likedSongs.has(song.id) ? 'fill-green-500 text-green-500' : ''}
+                      />
+                    </button>
+                  </div>
+                  <div className="col-span-1 flex items-center text-gray-400">
+                    {song.duration}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
 
+      {/* Player Bar */}
+      <div className="bg-gray-900 border-t border-gray-800 px-4 py-3">
+        <div className="flex items-center justify-between">
+          {/* Current Song Info */}
+          <div className="flex items-center space-x-4 w-1/4">
+            <img
+              src={songs[currentSong].image}
+              alt={songs[currentSong].title}
+              className="w-14 h-14 rounded"
+            />
+            <div>
+              <div className="font-semibold text-sm">{songs[currentSong].title}</div>
+              <div className="text-xs text-gray-400">{songs[currentSong].artist}</div>
+            </div>
+            <button
+              onClick={() => toggleLike(songs[currentSong].id)}
+              className="ml-4"
+            >
+              <Heart
+                size={20}
+                className={likedSongs.has(songs[currentSong].id) ? 'fill-green-500 text-green-500' : ''}
+              />
+            </button>
+          </div>
+
+          {/* Player Controls */}
+          <div className="flex flex-col items-center w-2/4">
+            <div className="flex items-center space-x-4 mb-2">
+              <button className="hover:text-white text-gray-400">
+                <Shuffle size={20} />
+              </button>
+              <button
+                onClick={handlePrevious}
+                disabled={currentSong === 0}
+                className={`${currentSong === 0 ? 'text-gray-600' : 'hover:text-white text-gray-400'}`}
+              >
+                <SkipBack size={24} />
+              </button>
+              <button
+                onClick={togglePlay}
+                className="bg-white text-black rounded-full p-2 hover:scale-105 transition"
+              >
+                {isPlaying ? <Pause size={24} /> : <Play size={24} className="ml-0.5" />}
+              </button>
+              <button
+                onClick={handleNext}
+                disabled={currentSong === songs.length - 1}
+                className={`${currentSong === songs.length - 1 ? 'text-gray-600' : 'hover:text-white text-gray-400'}`}
+              >
+                <SkipForward size={24} />
+              </button>
+              <button className="hover:text-white text-gray-400">
+                <Repeat size={20} />
+              </button>
+            </div>
+            
+            {/* Progress Bar */}
+            <div className="flex items-center space-x-2 w-full">
+              <span className="text-xs text-gray-400">{formatTime(currentTime)}</span>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={(currentTime / duration) * 100 || 0}
+                onChange={handleSeek}
+                className="flex-1 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #1db954 0%, #1db954 ${(currentTime / duration) * 100}%, #4b5563 ${(currentTime / duration) * 100}%, #4b5563 100%)`
+                }}
+              />
+              <span className="text-xs text-gray-400">{formatTime(duration)}</span>
+            </div>
+          </div>
+
+          {/* Volume Control */}
+          <div className="flex items-center justify-end space-x-2 w-1/4">
+            <button onClick={toggleMute}>
+              {isMuted || volume === 0 ? <VolumeX size={20} /> : <Volume2 size={20} />}
+            </button>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={isMuted ? 0 : volume * 100}
+              onChange={(e) => {
+                setVolume(e.target.value / 100);
+                setIsMuted(false);
+              }}
+              className="w-24 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #1db954 0%, #1db954 ${isMuted ? 0 : volume * 100}%, #4b5563 ${isMuted ? 0 : volume * 100}%, #4b5563 100%)`
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-const Body = () => {
-  const hours = new Date().getHours();
-  const greeting = hours < 12 ? "Morning" : hours < 17 ? "Afternoon" : "Evening";
-
-  return /*#__PURE__*/(
-    React.createElement("main", null, /*#__PURE__*/
-      React.createElement("div", { class: "greeting" }, /*#__PURE__*/
-        React.createElement("h2", null, "Good ", greeting)), /*#__PURE__*/
-
-
-      React.createElement("div", { class: "recent-activity" }, /*#__PURE__*/
-        React.createElement("div", { class: "activity-info" }, /*#__PURE__*/
-          React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-            React.createElement("img", { src: "https://seed-mix-image.spotifycdn.com/v6/img/pop/4AK6F7OLvEQ5QYCBNiQWHq/en/default", alt: "Pop Mix playlist cover photo" })), /*#__PURE__*/
-
-          React.createElement("p", null, "Pop Mix")), /*#__PURE__*/
-
-        React.createElement("div", { class: "activity-info" }, /*#__PURE__*/
-          React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-            React.createElement("img", { src: "https://i.scdn.co/image/ab67656300005f1f854bce22cb0e6890dba92dd8", alt: "The Athletic Football Tactics Podcast cover photo" })), /*#__PURE__*/
-
-          React.createElement("p", null, "The Athletic Football Tactics Podcast")), /*#__PURE__*/
-
-        React.createElement("div", { class: "activity-info" }, /*#__PURE__*/
-          React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-            React.createElement("img", { src: "https://i.scdn.co/image/ab67706f00000002b75cdf3f088c129cc350c0f8", alt: "This Is One Direction playlist cover photo" })), /*#__PURE__*/
-
-          React.createElement("p", null, "This Is One Direction")), /*#__PURE__*/
-
-        React.createElement("div", { class: "activity-info" }, /*#__PURE__*/
-          React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-            React.createElement("img", { src: "https://i.scdn.co/image/ab6761610000e5eb6e9a17ce6d67c02312e3fb89", alt: "Alessia Cara cover photo" })), /*#__PURE__*/
-
-          React.createElement("p", null, "Alessia Cara")), /*#__PURE__*/
-
-        React.createElement("div", { class: "activity-info" }, /*#__PURE__*/
-          React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-            React.createElement("img", { src: "https://dailymix-images.scdn.co/v2/img/ab6761610000e5eb26dbdbdacda5c30dc95e0c2c/3/en/default", alt: "Daily Mix 3 playlist cover photo" })), /*#__PURE__*/
-
-          React.createElement("p", null, "Daily Mix 3")), /*#__PURE__*/
-
-        React.createElement("div", { class: "activity-info" }, /*#__PURE__*/
-          React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-            React.createElement("img", { src: "https://i.scdn.co/image/ab67706f000000021373358fa4ff03aac54f188e", alt: "All Out 10s playlist cover photo" })), /*#__PURE__*/
-
-          React.createElement("p", null, "All Out 10s"))), /*#__PURE__*/
-
-
-
-      React.createElement("div", { class: "category" }, /*#__PURE__*/
-        React.createElement("div", { class: "title" }, /*#__PURE__*/
-          React.createElement("h3", null, "Your Shows"), /*#__PURE__*/
-          React.createElement("a", { href: "#" }, "SEE ALL")), /*#__PURE__*/
-
-        React.createElement("div", null, /*#__PURE__*/
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/a3313c9ff4f806345e71728b502022782e92cf34", alt: "HTML All The Things podcast cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "HTML All The Things"), /*#__PURE__*/
-            React.createElement("p", { class: "author" }, "Show. Matt & Mike")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/ab67656300005f1f854bce22cb0e6890dba92dd8", alt: "The Athletic Football Podcast cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "The Athletic Football Podcast"), /*#__PURE__*/
-            React.createElement("p", { class: "author" }, "Show. The Athletic")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/ab67656300005f1fcf5b0c37fe67ebbcdceb930b", alt: "Headline: Breaking Football News playlist cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "Headline: Breaking Football News"), /*#__PURE__*/
-            React.createElement("p", { class: "author" }, "Show. The Athletic")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/fedc8e1c8b93cc9b8e49e8e101ec9d9b8795d1fe", alt: "Raj Prakash Paul playlist cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "Raj Prakash Paul"), /*#__PURE__*/
-            React.createElement("p", { class: "author" }, "Show. Raj Prakash Paul")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/ab67656300005f1f6d655e4364ad1ed1dad7a83d", alt: "The Here We Go Podcast cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "The Here We Go Podcast"), /*#__PURE__*/
-            React.createElement("p", { class: "author" }, "Show. Here We Go")))), /*#__PURE__*/
-
-
-
-
-      React.createElement("div", { class: "category" }, /*#__PURE__*/
-        React.createElement("div", { class: "title" }, /*#__PURE__*/
-          React.createElement("h3", null, "Made For curious_coder"), /*#__PURE__*/
-          React.createElement("a", { href: "#" }, "SEE ALL")), /*#__PURE__*/
-
-        React.createElement("div", null, /*#__PURE__*/
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://dailymix-images.scdn.co/v2/img/ab6761610000e5eb031619e5eb9ed3b9806b648b/1/en/default", alt: "Daily Mix 1 cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "Daily Mix 1"), /*#__PURE__*/
-            React.createElement("p", { class: "author" }, "Ella Mai, Shawn Mendes, Jason Derulo")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://dailymix-images.scdn.co/v2/img/ab6761610000e5eb6e9a17ce6d67c02312e3fb89/2/en/default", alt: "Daily Mix 2 cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "Daily Mix 2"), /*#__PURE__*/
-            React.createElement("p", { class: "author" }, "Alessia Cara, 5 Seconds Of Summer")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://dailymix-images.scdn.co/v2/img/ab6761610000e5eb26dbdbdacda5c30dc95e0c2c/3/en/default", alt: "Daily Mix 3 cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "Daily Mix 3"), /*#__PURE__*/
-            React.createElement("p", { class: "author" }, "Taylor Swift, Fifth Harmony")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://dailymix-images.scdn.co/v2/img/ab6761610000e5eb7aff8a274fcec288dd534abc/4/en/default", alt: "Daily Mix 4 cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "Daily Mix 4"), /*#__PURE__*/
-            React.createElement("p", { class: "author" }, "Jesus Culture, Bethel Music")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://dailymix-images.scdn.co/v2/img/ab6761610000e5eb70859a2e628fd00e8be3a696/5/en/default", alt: "Daily Mix 5 cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "Daily Mix 5"), /*#__PURE__*/
-            React.createElement("p", { class: "author" }, "Benny Joshua, Allen Ganta")))), /*#__PURE__*/
-
-
-
-
-      React.createElement("div", { class: "category" }, /*#__PURE__*/
-        React.createElement("div", { class: "title" }, /*#__PURE__*/
-          React.createElement("h3", null, "Charts"), /*#__PURE__*/
-          React.createElement("a", { href: "#" }, "SEE ALL")), /*#__PURE__*/
-
-        React.createElement("div", null, /*#__PURE__*/
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://charts-images.scdn.co/assets/locale_en/regional/daily/region_in_default.jpg", alt: "Top 50 India playlist cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "Top 50 India")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/ab67706f00000002b545db24c5864981ff896f07", alt: "Hot Hits India playlist cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "Hot Hits India")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://charts-images.scdn.co/assets/locale_en/regional/daily/region_global_default.jpg", alt: "Top 50 Global playlist cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "Top 50 Global")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/ab67706c0000da84fc156bed23ef2df5814fb190", alt: "Top Albums - Global playlist cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "Top Albums - Global")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://charts-images.scdn.co/assets/locale_en/viral/daily/region_global_default.jpg", alt: "Viral 50 - India playlist cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "Viral 50 - India")))), /*#__PURE__*/
-
-
-
-
-      React.createElement("div", { class: "category" }, /*#__PURE__*/
-        React.createElement("div", { class: "title" }, /*#__PURE__*/
-          React.createElement("h3", null, "Best Of Artists"), /*#__PURE__*/
-          React.createElement("a", { href: "#" }, "SEE ALL")), /*#__PURE__*/
-
-        React.createElement("div", null, /*#__PURE__*/
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/ab67706f000000021230c7f75023a90181e914a0", alt: "This is Alessia Cara playlist cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "This Is Alessia Cara")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/ab67706f00000002a0a577ed169a7792c9363d6c", alt: "This is Hillsong Worship playlist cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "This Is Hillsong Worship")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/ab67706f00000002181896dd694bc09e4a0f13c8", alt: "This is Camila Cabello playlist cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "This Is Camila Cabello")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/ab67706f000000027988283d13d5654287988494", alt: "This is Shawn Mendes playlist cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "This Is Shawn Mendes")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/ab67706f00000002b75cdf3f088c129cc350c0f8", alt: "This is One Direction playlist cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "This Is One Direction")))), /*#__PURE__*/
-
-
-
-
-      React.createElement("div", { class: "category final-category" }, /*#__PURE__*/
-        React.createElement("div", { class: "title" }, /*#__PURE__*/
-          React.createElement("div", { class: "popular-shows" }, /*#__PURE__*/
-            React.createElement("p", null, "POPULAR WITH LISTENERS OF"), /*#__PURE__*/
-            React.createElement("h3", null, "Headline: Breaking Football News")), /*#__PURE__*/
-
-          React.createElement("a", { href: "#" }, "SEE ALL")), /*#__PURE__*/
-
-        React.createElement("div", null, /*#__PURE__*/
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/ab67656300005f1f6070c8c3beddfeef90cd9044", alt: "Football Cliches podcast cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "Football Cliches"), /*#__PURE__*/
-            React.createElement("p", { class: "author" }, "Show. The Athletic")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/ab67656300005f1fff3db692e1f2dbe7c73951e2", alt: "The Athletic Football Podcast podcast cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "The Athletic Football Podcast"), /*#__PURE__*/
-            React.createElement("p", { class: "author" }, "Show. The Athletic")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/ab67656300005f1fea8a7821ffed11a7bfe73c71", alt: "Beyond the Headline podcast cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "Beyond the Headline"), /*#__PURE__*/
-            React.createElement("p", { class: "author" }, "Show. The Athletic")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/ab67656300005f1f31a9464d4951d231128babc6", alt: "The Next Big Thing podcast cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "The Next Big Thing"), /*#__PURE__*/
-            React.createElement("p", { class: "author" }, "Show. The Athletic")), /*#__PURE__*/
-
-          React.createElement("div", { class: "category-info" }, /*#__PURE__*/
-            React.createElement("div", { class: "img-div" }, /*#__PURE__*/
-              React.createElement("img", { src: "https://i.scdn.co/image/bdd990bddb85baa44c320b2ffba328549e184643", alt: "The Scouted Football Podcast podcast cover photo" })), /*#__PURE__*/
-
-            React.createElement("p", { class: "category-name" }, "The Scouted Football Podcast"), /*#__PURE__*/
-            React.createElement("p", { class: "author" }, "Show. Scouted Football"))))));
-
-
-
-
-
-};
-
-ReactDOM.render( /*#__PURE__*/React.createElement(App, null), document.getElementById('root'));
+export default SpotifyClone;
